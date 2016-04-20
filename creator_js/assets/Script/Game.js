@@ -37,9 +37,9 @@ cc.Class({
         }
 
         this.maxStars = 1000;
-        this.starsCountOffset = 200;
+        this.starsCountOffset = 50;
         this.stars = [];
-        this.stepsCount = 120;
+        this.stepsCount = 50;
         this.steps = this.stepsCount;
         
         console.log("START");
@@ -87,7 +87,7 @@ cc.Class({
 
     // called every frame, uncomment this function to activate update callback
     update: function (dt) {
-        this.steps++;
+        this.steps += 0.5;
         if (this.steps >= this.stepsCount) {
             if (this.starsCountOffset > 0) {
                 this.addStars(this.starsCountOffset);

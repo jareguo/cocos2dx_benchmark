@@ -20,3 +20,8 @@ lua/frameworks/runtime-src/proj.android/obj/
 lua/frameworks/runtime-src/proj.android/libs/
 lua/simulator
 lua/frameworks/runtime-src/proj.ios_mac/build/
+
+creator_js/temp
+creator_js/local
+creator_js/library
+creator_js/build
