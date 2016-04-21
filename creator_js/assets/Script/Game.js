@@ -33,9 +33,18 @@ var Game = cc.Class({
         instance: null
     },
 
+    initPool: function () {
+        for (var i = 0; i < this.maxStars; ++i) {
+            var star = cc.instantiate(this.starPrefab);
+            cc.pool.putInPool(star);
+        }
+    },
+
     // use this for initialization
     onLoad: function () {
         Game.instance = this;
+
+        this.initPool();
 
         this.offsetCount = 60;
         this.offsets = [];
@@ -55,7 +64,12 @@ var Game = cc.Class({
         var size = cc.winSize;
         var Star = require('Star');
         for (var i = 0; i < count; i++) {
-            var starNode = cc.instantiate(this.starPrefab);
+            var starNode;
+            if (cc.pool.hasObject(cc.Node)) {
+                starNode = cc.pool.getFromPool(cc.Node);
+            } else {
+                starNode = cc.instantiate(this.starPrefab);
+            }
             var star = starNode.getComponent(Star);
             star.x = (Math.random() - 0.5) * size.width;
             star.y = (Math.random() - 0.5) * size.height;
@@ -76,6 +90,7 @@ var Game = cc.Class({
         while (count > 0 && this.stars.length > 0) {
             var star = this.stars.pop();
             star.node.parent = null;
+            cc.pool.putInPool(star);
             count--;
         }
 
