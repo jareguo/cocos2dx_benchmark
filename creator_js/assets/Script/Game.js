@@ -36,13 +36,11 @@ cc.Class({
             };
         }
 
-        this.maxStars = 1000;
-        this.starsCountOffset = 50;
+        this.maxStars = 6000;
+        this.starsCountOffset = 40;
         this.stars = [];
         this.stepsCount = 50;
-        this.steps = this.stepsCount;
-        
-        console.log("START");
+        this.steps = 250;
         
         cc.director.setDisplayStats(true);
     },
@@ -94,7 +92,7 @@ cc.Class({
             } else {
                 this.removeStars(-this.starsCountOffset);
             }
-            this.steps = 0;
+            this.steps -= this.stepsCount;
             this.starsLabel.string = this.stars.length.toString() + " stars";
         }
     }
