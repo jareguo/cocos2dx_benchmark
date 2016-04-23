@@ -56,7 +56,9 @@ var Game = cc.Class({
         var Star = require('Star');
         for (var i = 0; i < count; i++) {
             var starNode = cc.instantiate(this.starPrefab);
-            var star = starNode.getComponent(Star);
+            var star = starNode.star = {
+                node: starNode
+            };
             star.x = (Math.random() - 0.5) * size.width;
             star.y = (Math.random() - 0.5) * size.height;
             star.i = (Math.random() * this.offsetCount) | 0;
@@ -100,7 +102,7 @@ var Game = cc.Class({
             pos.oi = -pos.oi;
         }
 
-        var node = star.node;
+        var node = star.node._sgNode;
         node.setPosition(pos.x + offset.x, pos.y + offset.y);
         node.setOpacity(pos.o);
     },

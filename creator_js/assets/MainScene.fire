@@ -337,9 +337,9 @@
     "starPrefab": {
       "__uuid__": "02cad207-4c18-4daa-9a07-65b8f7faddc6"
     },
-    "maxStars": 1500,
+    "maxStars": 3000,
     "starsCountOffset": 40,
     "stepsCount": 50,
-    "steps": 500
+    "steps": 1400
   }
 ]
