@@ -56,11 +56,9 @@ var Game = cc.Class({
         var Star = require('Star');
         var spriteFrame = this.starPrefab.data.getComponent(cc.Sprite).spriteFrame;
         for (var i = 0; i < count; i++) {
-            var starNode = new cc.Node();
-            starNode.setContentSize(32, 32);
-            var sprite = starNode.addComponent(cc.Sprite);
-            sprite.spriteFrame = spriteFrame;
-
+            var starNode = new cc.Scale9Sprite();
+            starNode.setSpriteFrame(spriteFrame);
+            
             var star = starNode.star = {
                 node: starNode
             };
@@ -70,7 +68,7 @@ var Game = cc.Class({
             star.o = (Math.random() * 256) | 0;     // 透明度
             star.oi = 1;
 
-            starNode.parent = this.starsLayer;
+            this.starsLayer._sgNode.addChild(starNode);
 
             this.stars.push(star);
         }
@@ -107,7 +105,7 @@ var Game = cc.Class({
             pos.oi = -pos.oi;
         }
 
-        var node = star.node._sgNode;
+        var node = star.node;
         node.setPosition(pos.x + offset.x, pos.y + offset.y);
         node.setOpacity(pos.o);
     },
