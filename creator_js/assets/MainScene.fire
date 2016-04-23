@@ -241,9 +241,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -336,6 +336,10 @@
     },
     "starPrefab": {
       "__uuid__": "02cad207-4c18-4daa-9a07-65b8f7faddc6"
-    }
+    },
+    "maxStars": 1000,
+    "starsCountOffset": 40,
+    "stepsCount": 50,
+    "steps": 250
   }
 ]

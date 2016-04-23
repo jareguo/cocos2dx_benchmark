@@ -1,27 +1,36 @@
+var Game = require('Game');
+
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //    default: null,
-        //    url: cc.Texture2D,  // optional, default is typeof default
-        //    serializable: true, // optional, default is true
-        //    visible: true,      // optional, default is true
-        //    displayName: 'Foo', // optional
-        //    readonly: false,    // optional, default is false
-        // },
-        // ...
-    },
-
-    // use this for initialization
-    onLoad: function () {
+        i: {
+            default: 0,
+            serializable: false
+        },
+        o: {
+            default: 0,
+            serializable: false
+        },
+        oi: {
+            default: 0,
+            serializable: false
+        },
+        x: {
+            default: 0,
+            serializable: false
+        },
+        y: {
+            default: 0,
+            serializable: false
+        }
     },
 
     // called every frame, uncomment this function to activate update callback
     update: function (dt) {
-        var pos = this.pos;
-        var offset = pos.offsets[pos.i];
-        var offsetCount = pos.offsetCount;
+        var pos = this;
+        var offset = Game.instance.offsets[pos.i];
+        var offsetCount = Game.instance.offsetCount;
         
         pos.i++;
         pos.i %= offsetCount;
@@ -34,7 +43,8 @@ cc.Class({
             pos.oi = -pos.oi;
         }
 
-        this.node.setPosition(cc.p(pos.x + offset.x, pos.y + offset.y));
-        this.node.setOpacity(pos.o);
+        var node = this.node;
+        node.setPosition(pos.x + offset.x, pos.y + offset.y);
+        node.setOpacity(pos.o);
     }
 });

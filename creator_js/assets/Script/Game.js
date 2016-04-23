@@ -1,4 +1,4 @@
-cc.Class({
+var Game = cc.Class({
     extends: cc.Component,
 
     properties: {
@@ -22,11 +22,21 @@ cc.Class({
         starPrefab: {
             default: null,
             type: cc.Prefab
-        }
+        },
+        maxStars: 6000,
+        starsCountOffset: 40,   // 每批增减的个数
+        stepsCount: 50,         // 数量增减速度
+        steps: 250,             // 初始数量
+    },
+
+    statics: {
+        instance: null
     },
 
     // use this for initialization
     onLoad: function () {
+        Game.instance = this;
+
         this.offsetCount = 60;
         this.offsets = [];
         for (var i = 0; i < this.offsetCount; i++) {
@@ -36,33 +46,24 @@ cc.Class({
             };
         }
 
-        this.maxStars = 6000;
-        this.starsCountOffset = 40;
         this.stars = [];
-        this.stepsCount = 50;
-        this.steps = 250;
         
         cc.director.setDisplayStats(true);
     },
 
     addStars:function (count) {
         var size = cc.winSize;
+        var Star = require('Star');
         for (var i = 0; i < count; i++) {
-            var star = cc.instantiate(this.starPrefab);
-            var pos = {
-                x: (Math.random() - 0.5) * size.width,
-                y: (Math.random() - 0.5) * size.height,
-                i: Math.floor(Math.random() * this.offsetCount),
-                o: Math.floor(Math.random() * 256),
-                oi: 1,
-                offsets: this.offsets,
-                offsetCount: this.offsetCount
-            };
-            var offset = this.offsets[pos.i];
-            star.setPosition(pos.x + offset.x, pos.y + offset.y);
-            star.setOpacity(pos.o);
-            star.getComponent("Star").pos = pos;
-            this.starsLayer.addChild(star);
+            var starNode = cc.instantiate(this.starPrefab);
+            var star = starNode.getComponent(Star);
+            star.x = (Math.random() - 0.5) * size.width;
+            star.y = (Math.random() - 0.5) * size.height;
+            star.i = (Math.random() * this.offsetCount) | 0;
+            star.o = (Math.random() * 256) | 0;     // 透明度
+            star.oi = 1;
+
+            starNode.parent = this.starsLayer;
 
             this.stars.push(star);
         }
@@ -74,7 +75,7 @@ cc.Class({
     removeStars:function (count) {
         while (count > 0 && this.stars.length > 0) {
             var star = this.stars.pop();
-            this.starsLayer.removeChild(star);
+            star.node.parent = null;
             count--;
         }
 
@@ -85,7 +86,7 @@ cc.Class({
 
     // called every frame, uncomment this function to activate update callback
     update: function (dt) {
-        this.steps += 0.5;
+        ++this.steps;
         if (this.steps >= this.stepsCount) {
             if (this.starsCountOffset > 0) {
                 this.addStars(this.starsCountOffset);
@@ -93,7 +94,12 @@ cc.Class({
                 this.removeStars(-this.starsCountOffset);
             }
             this.steps -= this.stepsCount;
-            this.starsLabel.string = this.stars.length.toString() + " stars";
+            if (this.starsLabel) {
+                this.starsLabel.string = this.stars.length.toString() + " stars";
+            }
+            else {
+                cc.log(this.stars.length);
+            }
         }
     }
 });
