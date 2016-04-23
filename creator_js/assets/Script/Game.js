@@ -54,9 +54,15 @@ var Game = cc.Class({
     addStars:function (count) {
         var size = cc.winSize;
         var Star = require('Star');
+        var spriteFrame = this.starPrefab.data.getComponent(cc.Sprite).spriteFrame;
         for (var i = 0; i < count; i++) {
-            var starNode = cc.instantiate(this.starPrefab);
-            var star = starNode.getComponent(Star);
+            
+            var starNode = new cc.Node();
+            starNode.setContentSize(32, 32);
+            var sprite = starNode.addComponent(cc.Sprite);
+            sprite.spriteFrame = spriteFrame;
+            
+            var star = starNode.addComponent(Star);
             star.x = (Math.random() - 0.5) * size.width;
             star.y = (Math.random() - 0.5) * size.height;
             star.i = (Math.random() * this.offsetCount) | 0;
