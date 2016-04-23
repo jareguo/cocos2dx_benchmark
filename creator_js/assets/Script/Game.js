@@ -60,7 +60,6 @@ var Game = cc.Class({
             starNode.setContentSize(32, 32);
             var sprite = starNode.addComponent(cc.Sprite);
             sprite.spriteFrame = spriteFrame;
-            starNode.addComponent(Star);
 
             var star = starNode.star = {
                 node: starNode
