@@ -84,6 +84,27 @@ var Game = cc.Class({
         }
     },
 
+    updateStar: function (star) {
+        var pos = star;
+        var offset = this.offsets[pos.i];
+        var offsetCount = this.offsetCount;
+
+        pos.i++;
+        pos.i %= offsetCount;
+        pos.o += pos.oi;
+        if (pos.o > 255) {
+            pos.o = 255;
+            pos.oi = -pos.oi;
+        } else if (pos.o < 0) {
+            pos.o = 0;
+            pos.oi = -pos.oi;
+        }
+
+        var node = star.node;
+        node.setPosition(pos.x + offset.x, pos.y + offset.y);
+        node.setOpacity(pos.o);
+    },
+
     // called every frame, uncomment this function to activate update callback
     update: function (dt) {
         ++this.steps;
@@ -100,6 +121,9 @@ var Game = cc.Class({
             else {
                 cc.log(this.stars.length);
             }
+        }
+        for (var i = 0; i < this.stars.length; ++i) {
+            this.updateStar(this.stars[i]);
         }
     }
 });
